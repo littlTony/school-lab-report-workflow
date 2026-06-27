@@ -39,12 +39,14 @@ Run the workflow in this order:
 2. **基础 Markdown 提取**
    - Use `school-lab-report`.
    - Produce per-task preliminary Markdown containing requirements, principles, code paths, result paths, and initial analysis.
+   - For formula-heavy algorithms, model structures, transforms, objectives, or metrics, include derivation steps and a small task-specific worked example instead of only listing core formulas.
 
 3. **实验过程及内容扩写**
    - Use `school-lab-md-expander`.
    - Expand each task one by one.
    - Save expanded Markdown under `expanded/`.
    - Ensure expanded files are detailed enough for direct Word insertion.
+   - Ensure `实验原理` derives important formulas from definitions or assumptions, explains intermediate steps and symbols, and includes examples tied to the assignment's data, parameters, coordinates, tensors, or measurements.
    - Preserve original problem statements and numbering in the expanded process source.
    - For concept questions, write direct answers under each original problem without extra subsection labels.
    - For programming questions, use `题目分析`, `实验原理`, `实验设计`, `核心代码`, and `代码说明` as bold unnumbered labels under each original problem.
@@ -144,6 +146,7 @@ Before final delivery:
 
 - All source tasks have preliminary Markdown.
 - Each task has expanded Markdown.
+- Formula-heavy tasks include derivation chains and task-specific examples in the principle/process content, not only final formulas.
 - Data-analysis Markdown references real result files.
 - Method/conclusion Markdown exists.
 - DOCX formulas are rendered, not raw source.

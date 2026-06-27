@@ -13,6 +13,7 @@
 - `school-lab-data-analysis` 产物：`analysis/` 下数据处理分析 Markdown。
 - `school-lab-method-conclusion` 产物：`summary/` 下方法步骤与实验结论 Markdown。
 - `school-lab-docx-report` 产物：最终 DOCX。
+- 对公式较多的算法、模型结构、变换、指标或优化目标，`school-lab-report` 和 `school-lab-md-expander` 产物必须包含推导链、符号解释和结合题目的例子，不能只列核心公式。
 
 ## DOCX 质量检查
 
@@ -27,6 +28,7 @@
 ## 分区检查
 
 - `expanded/` 下的过程扩写文件只包含题目要求、知识点、原理公式、算法流程、代码设计和代码文本。
+- `expanded/` 下的 `实验原理` 对公式密集内容应包含定义/假设、中间推导、最终公式、变量说明、题目例子和代码对应关系。
 - `expanded/` 下不应包含结果图片、结果表格、运行指标表、图注、表注或针对实际输出效果的结果分析。
 - `analysis/` 下的数据处理分析文件应集中包含结果图片、结果表格、CSV 指标、运行日志摘要和结果解释。
 - Word 迁入前必须再次过滤 `实验过程及内容` 源 Markdown，移出标题含 `实验结果`、`结果展示`、`结果分析`、`数据处理分析`、`输出结果`、`运行结果` 的小节。

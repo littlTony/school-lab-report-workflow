@@ -30,13 +30,16 @@ Use `代码文件与运行方式` when the task includes code. Use `实验材料
 3. Generate stable artifacts under obvious paths such as `code/`, `results/`, `data/`, or the repo's existing convention.
 4. Write the Markdown after verification so the report matches the actual files and outputs.
 5. Include exact run commands, input/output paths, numeric results, figures, and key parameters.
-6. Make the principle section substantial: define variables, derive formulas, explain assumptions, and connect equations to the implemented steps.
-7. Make the analysis section concrete: explain whether the result meets the requirement, what parameters affected the result, and what error sources or limitations remain.
+6. Make the principle section substantial: define variables, derive formulas from assumptions or definitions, show intermediate steps, and connect equations to the implemented steps.
+7. When a task involves an algorithm, model structure, transform, metric, or optimization objective with many mathematical details, do not stop at listing core formulas. Explain where each formula comes from, why it is valid for this task, and give a small task-specific example using the problem's variables, data shape, parameter values, image/audio coordinates, or sample numeric values.
+8. Make the analysis section concrete: explain whether the result meets the requirement, what parameters affected the result, and what error sources or limitations remain.
 
 ## Writing Rules
 
 - Use LaTeX for equations. Prefer explicit derivations over only naming formulas.
 - Use inline LaTeX for formulas that belong inside a sentence and display LaTeX only for formulas that should occupy their own line. For example, write `$G_x$` and `$R_{ci}$` inline rather than leaving `Gx`/`Rci` as plain text.
+- For formula-heavy tasks, write a derivation chain instead of a formula list: start with definitions or modeling assumptions, derive the target expression step by step, define every symbol, then explain how the final expression maps to code or calculation.
+- Include a task-specific example when it helps understanding. Good examples substitute a small image patch, signal sequence, coordinate point, confusion-matrix counts, transfer-function parameter, or model tensor shape from the current task. Avoid generic textbook examples that do not mention the actual experiment.
 - Preserve assignment images, diagrams, and problem-statement figures as source facts. If the final DOCX must retain them, record their path or original anchor instead of silently dropping them.
 - Start principle explanations from definitions, then build toward the task-specific algorithm or model.
 - For algorithms, include input, output, main steps, parameter meaning, and complexity or limitations when relevant.
@@ -60,9 +63,11 @@ List the relevant knowledge points first, then explain each one. Include formula
 
 - Variable definitions and units.
 - Mathematical model or algorithm pipeline.
-- Derivation of core equations.
+- Derivation of core equations, including intermediate steps rather than only the final expression.
 - Parameter meanings and selection logic.
 - Why this method fits the experiment.
+- A task-specific worked example that connects the abstract formula to the actual assignment.
+- The relationship between the mathematical expression and the implemented code, model layer, metric calculation, or experimental measurement.
 
 ### 代码文件与运行方式
 

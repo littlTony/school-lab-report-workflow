@@ -64,7 +64,7 @@ Write from the student's first-person perspective where personal completion is d
 Use these content roles:
 
 - `方法、步骤`: concise design summary of each experiment item. Write compact numbered points. Do not include long principle derivations here.
-- `实验过程及内容`: the most important section. Expand from Markdown notes and include detailed knowledge points, algorithm/theory explanations, formula derivations, code for programming tasks, and code design explanation.
+- `实验过程及内容`: the most important section. Expand from Markdown notes and include detailed knowledge points, algorithm/theory explanations, formula derivations, task-specific worked examples, code for programming tasks, and code design explanation.
 - `数据处理分析`: the second most important section. Extract and discuss actual results from images, CSV files, tables, logs, or printed metrics. Include result figures and corresponding tables.
 - `实验结论` / `实验总结`: use first-person completed tense, such as `我完成了...`, `我实现了...`, `我分析了...`, and summarize the whole experiment.
 
@@ -74,6 +74,7 @@ For concept questions:
 - Preserve the original problem statement and number, then answer directly under it.
 - Do not add module labels such as `题目分析`, `实验原理`, `实验设计`, `核心代码`, `代码说明`, or `本题小结`.
 - Provide detailed analysis, definitions, formula derivations, comparisons, and conclusions as direct answer paragraphs.
+- For mathematical concept questions, preserve the reasoning chain and problem-specific example. Do not collapse the answer to only a final formula or conclusion.
 
 For programming questions:
 
@@ -81,6 +82,7 @@ For programming questions:
 - Under each problem, use the bold labels `题目分析`, `实验原理`, `实验设计`, `核心代码`, and `代码说明` without separate numbering.
 - Include code in `实验过程及内容`, not as screenshots.
 - Explain code design and how each part corresponds to the algorithm.
+- In `实验原理`, keep the derivation steps and task-specific examples produced by `school-lab-md-expander`. If the expanded Markdown only lists core formulas for a formula-heavy algorithm or model, return to the expansion phase and deepen it before DOCX insertion.
 - Put result images/tables and result interpretation in `数据处理分析`.
 
 Strict section boundary:
@@ -95,12 +97,12 @@ Strict section boundary:
 Before filling `实验过程及内容`, always follow this process:
 
 1. Locate the original preliminary Markdown files for concept and programming tasks.
-2. Use `school-lab-md-expander` to produce expanded Markdown files. The expansion must be materially richer than the draft and must include detailed knowledge points, formulas, derivations, code design, and code text.
+2. Use `school-lab-md-expander` to produce expanded Markdown files. The expansion must be materially richer than the draft and must include detailed knowledge points, formulas, derivations, task-specific worked examples, code design, and code text.
 3. Save the expanded Markdown as a standalone artifact, for example under `expanded/`.
 4. Insert the expanded Markdown content into the `实验过程及内容` region of the DOCX.
 5. Do not replace the expanded Markdown with a short DOCX-generated summary.
 
-The DOCX insertion code should be a renderer/converter from expanded Markdown to Word content, not the primary content author. If the inserted DOCX content is much shorter than the expanded Markdown, the workflow has failed and must be corrected.
+The DOCX insertion code should be a renderer/converter from expanded Markdown to Word content, not the primary content author. If the inserted DOCX content is much shorter than the expanded Markdown, or if formula-heavy `实验原理` content loses derivation steps and task-specific examples, the workflow has failed and must be corrected.
 
 When inserting expanded Markdown:
 
