@@ -65,7 +65,7 @@ Use these content roles:
 
 - `方法、步骤`: concise design summary of each experiment item. Write compact numbered points. Do not include long principle derivations here.
 - `实验过程及内容`: the most important section. Expand from Markdown notes and include detailed knowledge points, algorithm/theory explanations, formula derivations, task-specific worked examples, code for programming tasks, and code design explanation.
-- `数据处理分析`: the second most important section. Extract and discuss actual results from images, CSV files, tables, logs, or printed metrics. Include result figures and corresponding tables.
+- `数据处理分析`: the second most important section. Extract and discuss actual results from images, CSV files, tables, logs, or printed metrics. Include result files, result figures, result data tables, and detailed result analysis.
 - `实验结论` / `实验总结`: use first-person completed tense, such as `我完成了...`, `我实现了...`, `我分析了...`, and summarize the whole experiment.
 
 For concept questions:
@@ -91,6 +91,24 @@ Strict section boundary:
 - `实验过程及内容` must not import result-display material from expanded Markdown, including sections titled `实验结果`, `结果展示`, `结果分析`, `数据处理分析`, `实验结果分析`, `结果文件`, `输出结果`, or similar.
 - Result images, result tables, CSV summaries, metric tables, figure captions, and interpretation of observed output belong in `数据处理分析`.
 - If an expanded Markdown file contains result material, split it before DOCX insertion: keep process/theory/code content for `实验过程及内容`, and route result material to `school-lab-data-analysis`.
+- Moving result material out of `实验过程及内容` is not deletion. The same factual result files, figures, tables, metrics, captions, and analysis paragraphs must be preserved in `数据处理分析`.
+
+## No-Reduction Rule For Markdown Insertion
+
+Prepared Markdown is the content source of record. During DOCX insertion:
+
+- Do not summarize, shorten, merge away, or rewrite prepared `expanded/`, `analysis/`, or `summary/` Markdown into a smaller report body.
+- The DOCX writer is a renderer and formatter, not a content compressor. If the Word section is much shorter than the source Markdown, the workflow has failed.
+- If a section is long, allow normal pagination and page breaks. Do not reduce paragraphs to fit a page or a table cell.
+- Preserve all task-level headings, numbered tasks, result-file references, image references, tables, captions, formulas, and analysis paragraphs unless the user explicitly asks to remove a specific item.
+- After insertion, compare the source Markdown outline against the DOCX section outline. Any missing task, missing result subsection, missing table, missing figure, or missing analysis paragraph must be fixed before delivery.
+
+For `数据处理分析`, preserve the analysis Markdown with particular strictness:
+
+- For each task, keep `结果文件`, `实验结果展示`, `结果数据表`, `结果分析`, and when available `误差来源与改进`.
+- Each task's `结果分析` should contain 2-3 substantial paragraphs when evidence exists, not a single sentence or a caption.
+- Result tables should remain tables in Word. Do not replace tables with prose unless no real table data exists.
+- If an old template contains result-related points, keep those points as subsections instead of flattening them into one generic paragraph.
 
 ## Expansion-First Rule For `实验过程及内容`
 
@@ -188,7 +206,7 @@ When a lab problem is named `3.1`, `3.2`, etc., convert the report-internal task
 8. Insert generated Markdown section by section:
    - `方法、步骤` from `school-lab-method-conclusion`.
    - `实验过程及内容` from `school-lab-md-expander` expanded Markdown after stripping/moving result material, inserted under the original problem anchors.
-   - `数据处理分析` from `school-lab-data-analysis`.
+   - `数据处理分析` from `school-lab-data-analysis`, preserving all result files, result figures, result data tables, and full analysis paragraphs without summarizing them.
    - `实验结论` from `school-lab-method-conclusion`.
 9. Convert formulas to visible Word equations using the equation rendering rule. Do not leave raw LaTeX in the final DOCX.
 10. Insert code as native Word text using syntax-highlighted two-column code tables with accurate line numbers; do not insert code screenshots or plain unhighlighted paragraphs.
@@ -196,9 +214,10 @@ When a lab problem is named `3.1`, `3.2`, etc., convert the report-internal task
 12. Insert tables as centered three-line tables with adaptive content-based width. Keep table captions and tables visually paired. Verify object-level centering, not only centered cell text.
 13. Render the DOCX to PNG pages using the documents skill renderer.
 14. Inspect every rendered page. Fix overflow, missing glyphs, broken equations, clipped/highlightless code, incorrect code line numbers, bad page breaks, stretched images, and table formatting drift.
-15. Scan the final DOCX XML/text for raw math tokens outside code blocks, including `$$`, `\(`, `\)`, `\frac`, `\sqrt`, `\sum`, `_{`, and `^{`. Any hit in report prose is a failure unless it is intentionally inside code.
-16. Re-render after every meaningful layout fix. Deliver only after the latest render is clean, or disclose if render QA cannot be completed because LibreOffice is unavailable.
-17. Prepare the final teacher-facing hand-in package when this is the final delivery step. The clean package contains only the final report DOCX, `result/`, and `code/`.
+15. Compare the generated DOCX section outline and paragraph/table/figure counts against the prepared Markdown. Fix missing or compressed content, especially in `数据处理分析`.
+16. Scan the final DOCX XML/text for raw math tokens outside code blocks, including `$$`, `\(`, `\)`, `\frac`, `\sqrt`, `\sum`, `_{`, and `^{`. Any hit in report prose is a failure unless it is intentionally inside code.
+17. Re-render after every meaningful layout fix. Deliver only after the latest render is clean, or disclose if render QA cannot be completed because LibreOffice is unavailable.
+18. Prepare the final teacher-facing hand-in package when this is the final delivery step. The clean package contains only the final report DOCX, `result/`, and `code/`.
 
 ## Final Hand-In Package
 

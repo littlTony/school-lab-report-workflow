@@ -56,6 +56,9 @@ Run the workflow in this order:
 4. **数据处理分析生成**
    - Use `school-lab-data-analysis`.
    - Extract actual results from result images, CSV files, logs, tables, and metrics.
+   - For each task, keep the template-style subsections `结果文件`, `实验结果展示`, `结果数据表`, `结果分析`, and when available `误差来源与改进`.
+   - Write 2-3 substantial `结果分析` paragraphs for each task with real evidence, covering observed result, algorithm/parameter explanation, and limitations or improvements.
+   - Preserve any result-related content moved out of expanded Markdown. Moving content between sections must not reduce or delete it.
    - Save analysis Markdown under `analysis/`.
 
 5. **方法步骤与实验结论生成**
@@ -67,6 +70,7 @@ Run the workflow in this order:
 6. **Word 报告填充与渲染检查**
    - Use `school-lab-docx-report`.
    - Insert generated Markdown artifacts into the provided Word template.
+   - Treat prepared Markdown as the source of record. Do not summarize, compress, or shorten `expanded/`, `analysis/`, or `summary/` content during Word insertion.
    - Preserve cover, fixed template labels, teacher review areas, notes, and frames.
    - Preserve original problem statements already present in `实验过程及内容`; insert generated content below them instead of replacing them.
    - Preserve embedded pictures/diagrams already present in problem statements; these are assignment assets, not generated result figures.
@@ -76,6 +80,7 @@ Run the workflow in this order:
    - Format figure captions as centered 宋体 六号 bold text.
    - Render fenced code blocks as syntax-highlighted Word code tables with a left line-number gutter, not plain pasted paragraphs.
    - Before inserting `实验过程及内容`, run a section-boundary pass that strips or moves any result material from expanded Markdown.
+   - Insert `数据处理分析` from `analysis/*.md` with all result files, figures, result data tables, and analysis paragraphs preserved.
    - If a reference report such as `Lab1.docx` is provided, use its same section formatting as the style authority.
    - Convert formulas to visible Word equations.
    - Render and visually inspect the final DOCX.
@@ -148,6 +153,8 @@ Before final delivery:
 - Each task has expanded Markdown.
 - Formula-heavy tasks include derivation chains and task-specific examples in the principle/process content, not only final formulas.
 - Data-analysis Markdown references real result files.
+- Data-analysis Markdown preserves result-file lists, result displays, result tables, and detailed analysis for every task.
+- Every task with real result evidence has 2-3 substantial result-analysis paragraphs, not only captions or one-sentence conclusions.
 - Method/conclusion Markdown exists.
 - DOCX formulas are rendered, not raw source.
 - Original template/problem images, drawings, text boxes, and equation objects have not been lost, including figures embedded in task statements.
@@ -158,5 +165,7 @@ Before final delivery:
 - A clean teacher-facing package exists with only the final report DOCX, `result/`, and `code/`.
 - The package tree has been listed and checked for unrelated intermediate artifacts.
 - `实验过程及内容` does not contain result figures/tables/metrics that belong in `数据处理分析`.
+- Any result material moved out of `实验过程及内容` appears in `数据处理分析` without content loss.
+- Final DOCX is checked against prepared Markdown so no task, formula derivation, result figure, result table, result path, or analysis paragraph has been silently shortened or omitted.
 - Final DOCX formatting for `实验过程及内容` matches the provided reference report when one is available.
 - DOCX has been rendered and visually inspected, or render failure is disclosed.
