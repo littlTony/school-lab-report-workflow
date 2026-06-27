@@ -116,7 +116,7 @@ When inserting expanded Markdown:
 - Normal Markdown paragraphs become 宋体 五号 Word paragraphs.
 - Code fences become syntax-highlighted Word code tables with a left line-number gutter; read `references/code-blocks.md` before implementing code insertion.
 - LaTeX display equations become visible Word equations or verified equation renderings.
-- Markdown tables become centered three-line Word tables only when they describe methods, parameters, or code design. Result tables are routed to `数据处理分析`.
+- Markdown tables become centered three-line Word tables only when they describe methods, parameters, or code design. Centered means the whole table object is horizontally centered on the page or inside the containing cell, not merely that text inside cells is centered. Result tables are routed to `数据处理分析`.
 - Markdown image references are not inserted into `实验过程及内容` unless the image is a method diagram required to explain the algorithm. Result images remain in `数据处理分析`.
 - Before insertion, run a content-boundary pass that removes or moves result sections, image-only result blocks, metric summaries, and result captions from the process-section Markdown.
 
@@ -127,10 +127,10 @@ Apply these styles to newly inserted content unless the template requires a stri
 - Normal added Chinese text: 宋体, 五号.
 - Code blocks: native Word text, Consolas 8.5-9pt, syntax-highlighted by language, with a left line-number gutter. Use `references/code-blocks.md`.
 - Figure captions: 宋体, 六号, bold, centered. Do not inherit Calibri/等线 or left alignment.
-- Tables: centered three-line table style matching the user's designed table style.
+- Tables: centered three-line table style matching the user's designed table style. Set the table object's alignment to center, such as `table.alignment = WD_TABLE_ALIGNMENT.CENTER` in python-docx or `<w:tblPr><w:jc w:val="center"/>` in Word XML. Do not treat cell paragraph alignment as a substitute for whole-table centering.
 - Figures and tables must use adaptive sizing, not blanket maximum width. Start from the asset's natural size, cap it to the available page/cell width, and choose a visually balanced width for the content. Never upscale a small raster image beyond its natural dimensions just to fill the line.
 - For result figures, prefer a readable width that normally falls around 50%-85% of the text area unless the image truly needs more detail. Method diagrams may use a larger cap, but still must not stretch or distort.
-- Tables should be centered and sized to content when compact. Use full available width only for genuinely wide comparison tables; otherwise set table width/column widths so the table looks intentional and text wraps cleanly.
+- Tables should be centered as whole objects and sized to content when compact. Use full available width only for genuinely wide comparison tables; otherwise set table width/column widths so the table looks intentional and text wraps cleanly. After insertion, verify the table's left and right margins are balanced in the rendered page.
 - Equations: visible Word equation format, not raw unrendered LaTeX text in the final DOCX.
 - Preserve all fixed template content styles.
 
@@ -193,7 +193,7 @@ When a lab problem is named `3.1`, `3.2`, etc., convert the report-internal task
 9. Convert formulas to visible Word equations using the equation rendering rule. Do not leave raw LaTeX in the final DOCX.
 10. Insert code as native Word text using syntax-highlighted two-column code tables with accurate line numbers; do not insert code screenshots or plain unhighlighted paragraphs.
 11. Insert figures into `数据处理分析` with adaptive, non-stretched sizing and centered 宋体 六号 bold captions.
-12. Insert tables as centered three-line tables with adaptive content-based width. Keep table captions and tables visually paired.
+12. Insert tables as centered three-line tables with adaptive content-based width. Keep table captions and tables visually paired. Verify object-level centering, not only centered cell text.
 13. Render the DOCX to PNG pages using the documents skill renderer.
 14. Inspect every rendered page. Fix overflow, missing glyphs, broken equations, clipped/highlightless code, incorrect code line numbers, bad page breaks, stretched images, and table formatting drift.
 15. Scan the final DOCX XML/text for raw math tokens outside code blocks, including `$$`, `\(`, `\)`, `\frac`, `\sqrt`, `\sum`, `_{`, and `^{`. Any hit in report prose is a failure unless it is intentionally inside code.

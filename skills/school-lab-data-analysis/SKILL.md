@@ -81,6 +81,7 @@ For each figure, keep enough metadata for the DOCX phase to size it well: path, 
 
 Prepare Markdown tables that can become three-line Word tables later. Keep columns compact and meaningful.
 When a table is compact, keep it compact. Avoid unnecessary wide columns or verbose text that would force the downstream DOCX table to occupy the full page width.
+Downstream DOCX insertion must center the whole Word table object, not merely center text inside table cells.
 
 Example:
 
