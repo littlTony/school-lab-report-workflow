@@ -1,0 +1,45 @@
+{
+  "project": "school-lab-report-workflow",
+  "extracted_from": "C:/Users/littleTang/.codex/skills",
+  "extracted_at": "2026-06-27T20:30:13.728Z",
+  "codex_skills_destination": "%USERPROFILE%/.codex/skills",
+  "recommended_entrypoint": "$school-lab-report-pipeline",
+  "skills": [
+    {
+      "id": "school-lab-report",
+      "name": "school-lab-report",
+      "description": "Create per-task Chinese lab-report draft Markdown with task requirements, theory, formulas, code/file references, generated results, and initial result analysis. Use for the first writing pass before expansion, data-analysis extraction, Word rendering, or final hand-in packaging.",
+      "role": "分题基础报告初稿：生成题目要求、原理、代码/结果路径和初步分析 Markdown。"
+    },
+    {
+      "id": "school-lab-md-expander",
+      "name": "school-lab-md-expander",
+      "description": "Expand preliminary Chinese lab-report Markdown into detailed Word-ready `实验过程及内容` Markdown. Use when Codex needs to preserve original problem statements and assignment images while adding theory, derivations, algorithm design, code text, and implementation explanation before DOCX insertion.",
+      "role": "实验过程及内容扩写：把初稿扩成可入 Word 的详细过程内容。"
+    },
+    {
+      "id": "school-lab-data-analysis",
+      "name": "school-lab-data-analysis",
+      "description": "Generate the Chinese `数据处理分析` Markdown section from actual experiment outputs: result images, CSV/TSV/XLSX tables, logs, metrics, and figures. Use when Codex needs to curate evidence, write result interpretation, and provide compact figure/table metadata for DOCX insertion.",
+      "role": "数据处理分析生成：整理结果图、表格、指标和分析。"
+    },
+    {
+      "id": "school-lab-method-conclusion",
+      "name": "school-lab-method-conclusion",
+      "description": "Generate the final Chinese `方法、步骤` and first-person `实验结论` sections from assignment requirements, expanded process Markdown, data-analysis Markdown, code outputs, and result summaries. Use near the end of the lab-report workflow before Word assembly.",
+      "role": "方法步骤与结论生成：生成方法步骤和第一人称实验结论。"
+    },
+    {
+      "id": "school-lab-docx-report",
+      "name": "school-lab-docx-report",
+      "description": "Build the final Chinese Word `.docx` lab report from a template plus prepared Markdown, code, result images, tables, and conclusions. Use when Codex needs to preserve the template, render inline/display OMML equations, style syntax-highlighted line-numbered code blocks, figures, tables, and captions, render-verify the DOCX, and optionally prepare the teacher hand-in folder containing only the report, `result/`, and `code/`.",
+      "role": "Word 报告排版与交付：填充模板、公式渲染、代码高亮、图表排版和渲染 QA。"
+    },
+    {
+      "id": "school-lab-report-pipeline",
+      "name": "school-lab-report-pipeline",
+      "description": "Orchestrate complete Chinese school lab-report delivery: run or verify experiments, generate draft/expanded/analysis/summary Markdown, build and render-check the final Word `.docx`, then prepare the teacher hand-in package containing only the report, `result/`, and `code/`. Use as the single entrypoint so the user does not need to invoke component skills manually.",
+      "role": "完整实验报告交付：总入口，编排全流程并整理 report/result/code 提交包。"
+    }
+  ]
+}

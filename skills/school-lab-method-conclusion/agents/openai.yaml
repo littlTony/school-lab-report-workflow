@@ -1,0 +1,4 @@
+interface:
+  display_name: "方法步骤与结论生成"
+  short_description: "生成方法步骤和第一人称实验结论"
+  default_prompt: "Use $school-lab-method-conclusion to write 方法、步骤 and first-person 实验结论 sections."

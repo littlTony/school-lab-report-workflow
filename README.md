@@ -1,0 +1,281 @@
+# School Lab Report Workflow
+
+这个项目把“课程实验从执行到最终 Word 报告交付”的 Codex skills 独立出来，方便后续集中维护、同步和复用。它适合需要从实验题目、代码、结果图表、Markdown 草稿一路整理到最终 `.docx` 报告和教师提交材料的课程实验。
+
+推荐总入口：
+
+```text
+$school-lab-report-pipeline
+```
+
+## 项目结构
+
+```text
+school-lab-report-workflow/
+├── README.md
+├── skills-manifest.json
+├── docs/
+│   └── workflow.md
+├── scripts/
+│   ├── sync-to-codex.ps1
+│   ├── sync-from-codex.ps1
+│   └── validate-project.ps1
+└── skills/
+    ├── school-lab-report/
+    ├── school-lab-md-expander/
+    ├── school-lab-data-analysis/
+    ├── school-lab-method-conclusion/
+    ├── school-lab-docx-report/
+    └── school-lab-report-pipeline/
+```
+
+## 完整工作流
+
+`$school-lab-report-pipeline` 是完整交付入口。通常只需要在 Codex 中调用这个 skill，它会按顺序编排下面所有组件 skill，并在每个阶段生成可追踪的中间产物。
+
+### 1. 实验执行与结果生成
+
+先读取实验题目、模板、已有数据和参考材料，再编写或运行实验代码。生成的稳定产物建议放在这些目录中：
+
+```text
+code/
+results/
+data/
+```
+
+这一阶段要确保报告后续引用的代码、图片、表格、日志和指标是真实存在且可复现的，而不是只写文字描述。
+
+### 2. 分题基础报告初稿
+
+使用 `$school-lab-report`。
+
+这个阶段为每道题生成基础 Markdown，内容包括：
+
+- 题目要求、输入输出、限制条件和交付物。
+- 涉及知识点、算法原理、公式推导和变量定义。
+- 代码文件、运行命令、数据路径和结果路径。
+- 初步实验结果和结果分析。
+
+代码片段必须使用带语言标识的 fenced code block，例如：
+
+````markdown
+```python
+python code/main.py
+```
+````
+
+这样后续 Word 阶段才能正确做语法高亮和行号。
+
+### 3. 实验过程及内容扩写
+
+使用 `$school-lab-md-expander`。
+
+这个阶段把基础 Markdown 扩写成可直接放入 Word 报告 `实验过程及内容` 的详细内容。它会保留原题号、题干、题目图片和原始题目顺序，并补充理论、公式推导、算法设计、核心代码和代码说明。
+
+对于概念题，直接在原题下面回答，不额外添加 `题目分析`、`实验原理` 等标签。
+
+对于编程题，使用固定的无编号加粗标签：
+
+```text
+题目分析
+实验原理
+实验设计
+核心代码
+代码说明
+```
+
+这一阶段不能放结果图片、结果表格、指标表或结果解释。结果相关内容统一交给 `数据处理分析` 阶段。
+
+### 4. 数据处理分析生成
+
+使用 `$school-lab-data-analysis`。
+
+这个阶段从真实实验输出中生成 `数据处理分析` Markdown，包括：
+
+- 结果文件路径。
+- 结果图片和图注。
+- CSV/TSV/XLSX、日志或指标整理出的结果表。
+- 参数影响、误差来源、局限性和改进方向。
+
+如果 `实验过程及内容` 的扩写文件里混入了结果展示、结果分析、运行输出或指标表，也应在这个阶段抽取出来，避免最终 Word 报告的章节边界混乱。
+
+### 5. 方法步骤与实验结论生成
+
+使用 `$school-lab-method-conclusion`。
+
+这个阶段生成两个最终报告章节：
+
+- `方法、步骤`：按题目或任务组概括实验设计与执行过程，不重复长篇公式推导。
+- `实验结论`：使用第一人称完成式，例如“我完成了……我掌握了……我分析了……”。
+
+建议输出到：
+
+```text
+summary/<实验名>_方法步骤与实验结论.md
+```
+
+### 6. Word 报告排版与渲染检查
+
+使用 `$school-lab-docx-report`。
+
+这个阶段把前面生成的 Markdown、代码、结果图表和结论填入 `.docx` 模板。核心要求是保留模板结构，而不是重新设计文档。
+
+必须保留：
+
+- 封面、教师批阅区、备注、评分栏等固定模板内容。
+- 原始题目文字、题号、题目图片和已有公式对象。
+- 参考报告或模板中的局部排版风格。
+
+必须处理：
+
+- 行内公式和独立公式转换为可见 Word 公式，优先使用 OMML。
+- 代码块转换为带语法高亮和左侧行号栏的 Word 原生文本表格。
+- 图片和表格按内容自适应宽度，不能全部强行铺满页面。
+- 图注使用宋体六号加粗居中。
+- 渲染最终 DOCX 页面并检查公式、图片、表格、代码和分页问题。
+
+最终 Word 报告不应残留裸露的 LaTeX，例如 `$$...$$`、`\frac{...}`、`\sqrt{...}` 或未转换的行内公式。
+
+### 7. 教师提交材料整理
+
+最终输出一个干净的提交文件夹：
+
+```text
+output/<实验名>_提交材料/
+├── <实验名>_实验报告.docx
+├── result/
+└── code/
+```
+
+提交包规则：
+
+- `result/` 只放报告中引用的最终结果图、表格和指标文件。
+- `code/` 只放复现实验所需代码、Notebook、辅助模块、配置文件和必要小样例。
+- 不提交 `expanded/`、`analysis/`、`summary/`、渲染检查图、临时 PDF、缓存、旧结果、虚拟环境或隐藏工具目录。
+
+## Skill 使用方式
+
+### 推荐方式：只调用总入口
+
+大多数情况下，直接让 Codex 使用总入口即可：
+
+```text
+Use $school-lab-report-pipeline to complete Lab2 from experiment execution to final report and package the teacher submission folder.
+```
+
+中文也可以这样写：
+
+```text
+使用 $school-lab-report-pipeline 完成 Lab2，从运行实验、生成报告内容、排版 Word，到整理教师提交包。
+```
+
+总入口会自动决定何时调用组件 skill。用户不需要手动记住每个子 skill 的顺序。
+
+### 单独使用组件 skill
+
+如果只想完成某一个阶段，可以直接调用对应 skill。
+
+| Skill | 适用场景 | 主要输出 |
+|---|---|---|
+| `$school-lab-report` | 从题目、代码和结果生成分题基础报告初稿 | 每题 Markdown 草稿 |
+| `$school-lab-md-expander` | 把初稿扩写为 Word 可插入的 `实验过程及内容` | `expanded/*.md` |
+| `$school-lab-data-analysis` | 从真实结果图、表格、日志和指标生成结果分析 | `analysis/*.md` |
+| `$school-lab-method-conclusion` | 生成 `方法、步骤` 和第一人称 `实验结论` | `summary/*.md` |
+| `$school-lab-docx-report` | 将 Markdown、代码、图表填入 Word 模板并做渲染检查 | 最终 `.docx` 和提交包 |
+| `$school-lab-report-pipeline` | 编排完整实验报告交付流程 | 全部中间产物、最终报告、提交包 |
+
+### 常见调用示例
+
+只写分题初稿：
+
+```text
+Use $school-lab-report to generate preliminary Markdown for each task in Lab1 based on the assignment, code, and results.
+```
+
+只扩写 `实验过程及内容`：
+
+```text
+Use $school-lab-md-expander to expand the preliminary Markdown into detailed Word-ready 实验过程及内容, preserving original problem statements and assignment images.
+```
+
+只整理结果分析：
+
+```text
+Use $school-lab-data-analysis to generate 数据处理分析 from the images, CSV files, logs, and metrics under results/.
+```
+
+只生成方法和结论：
+
+```text
+Use $school-lab-method-conclusion to create 方法、步骤 and first-person 实验结论 from the expanded process and analysis Markdown.
+```
+
+只生成最终 Word：
+
+```text
+Use $school-lab-docx-report to fill the provided DOCX template with the generated Markdown, code, figures, tables, and conclusions, then render-check the final report.
+```
+
+## 产物目录建议
+
+完整流程推荐使用下面的工作目录：
+
+```text
+code/
+results/
+data/
+expanded/
+analysis/
+summary/
+output/
+```
+
+建议命名：
+
+```text
+expanded/<实验名>_<题号或任务名>_扩写.md
+analysis/<实验名>_数据处理分析.md
+summary/<实验名>_方法步骤与实验结论.md
+output/<实验名>_实验报告.docx
+output/<实验名>_提交材料/
+```
+
+其中 `expanded/`、`analysis/`、`summary/` 是工作产物，方便追踪和返工；最终交给老师的提交包只应包含报告、`result/` 和 `code/`。
+
+## 维护方式
+
+修改本项目中的 skill 后，建议按下面顺序维护：
+
+1. 在 `skills/` 下修改对应 skill。
+2. 运行基础结构检查：
+
+   ```powershell
+   .\scripts\validate-project.ps1
+   ```
+
+3. 同步到 Codex skills 目录：
+
+   ```powershell
+   .\scripts\sync-to-codex.ps1
+   ```
+
+4. 重启 Codex 或开启新线程，让新的 skill 版本被加载。
+
+如果你在 Codex 的安装目录里临时改了 skill，可以把当前安装版本拉回本项目：
+
+```powershell
+.\scripts\sync-from-codex.ps1
+```
+
+## 质量检查要点
+
+最终交付前至少检查：
+
+- 每道题都有基础 Markdown 和扩写 Markdown。
+- `实验过程及内容` 不混入结果图片、结果表格和结果分析。
+- `数据处理分析` 引用的图片、表格、日志和指标都来自真实文件。
+- `方法、步骤` 简洁，`实验结论` 使用第一人称完成式。
+- DOCX 中公式已渲染为可见公式，不残留裸 LaTeX。
+- 代码块是 Word 原生文本并带语法高亮和行号，不是截图。
+- 原模板中的题目图片、公式对象、批阅区、备注和固定文字没有丢失。
+- 最终提交包只包含报告 `.docx`、`result/` 和 `code/`。

@@ -1,0 +1,4 @@
+interface:
+  display_name: "分题基础报告初稿"
+  short_description: "为每题生成要求、原理、结果与分析初稿"
+  default_prompt: "Use $school-lab-report to draft per-task Chinese lab-report Markdown with requirements, theory, code/result paths, and initial analysis."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "完整实验报告交付"
+  short_description: "一键生成 Word 报告并打包 report/result/code"
+  default_prompt: "Use $school-lab-report-pipeline to generate the complete lab report and package the final report, result folder, and code folder for submission."

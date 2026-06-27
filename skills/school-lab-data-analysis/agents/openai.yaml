@@ -1,0 +1,4 @@
+interface:
+  display_name: "数据处理分析生成"
+  short_description: "整理结果图表指标并写数据处理分析"
+  default_prompt: "Use $school-lab-data-analysis to curate result figures, tables, metrics, and analysis Markdown."

@@ -1,0 +1,156 @@
+---
+name: school-lab-md-expander
+description: Expand preliminary Chinese lab-report Markdown into detailed Word-ready `实验过程及内容` Markdown. Use when Codex needs to preserve original problem statements and assignment images while adding theory, derivations, algorithm design, code text, and implementation explanation before DOCX insertion.
+---
+
+# School Lab Process Section Expander
+
+## Purpose
+
+Use this skill to convert short or preliminary lab-report Markdown into a detailed, Word-ready Markdown source. This skill is intentionally separate from DOCX editing: it produces the expanded content first, then a DOCX-focused skill can insert that content into a Word template.
+
+Use this skill before `school-lab-docx-report` fills `实验过程及内容`. The expanded Markdown should be rich enough that Word insertion does not need to invent or summarize content again.
+
+## Inputs
+
+Use all available materials:
+
+- Original lab assignment PDF/DOCX.
+- Original embedded assignment images, diagrams, charts, equation objects, and problem-statement pictures.
+- Existing preliminary Markdown files.
+- Source code files.
+- Result images, CSV files, logs, metrics, or printed outputs.
+- Current report text if available.
+
+Do not overwrite the original preliminary Markdown unless the user asks. Create an expanded file with a clear name, for example:
+
+```text
+expanded/Lab1_实验过程及内容_扩写.md
+```
+
+or, for per-task expansion:
+
+```text
+expanded/Lab1_编程题3_2_检测围棋棋子_扩写.md
+```
+
+## Expansion Rules
+
+- Preserve all verified facts, paths, numerical results, and conclusions from the original Markdown.
+- Treat problem-statement images and diagrams as original assignment content, not as result images. Preserve their references or record their DOCX anchor so the DOCX phase can keep them with the problem text.
+- Expand the explanation; do not shrink, paraphrase away, or replace detailed original content with a shorter summary.
+- If code exists, read the actual code and explain its design. Do not rely only on the Markdown description.
+- If result files exist, record their paths only as handoff metadata for `school-lab-data-analysis`. Do not display result images/tables or write result interpretation inside the process-section expansion.
+- If the original Markdown lacks enough theory, add definitions, formulas, derivations, and parameter explanations.
+- If a result or metric is missing, state the gap or run the code when appropriate before writing the expansion.
+- Write in Chinese unless the user requests otherwise.
+- Avoid second-person wording. Use objective report prose, and use first-person only when describing completed work or conclusions.
+
+## Required Structure For `实验过程及内容`
+
+Preserve the original assignment problem statements exactly. Do not delete, rewrite, renumber, summarize, or replace problem text already present in the template/report. Expanded content is appended under the original problem statement.
+If a problem statement includes a picture or diagram, preserve a placeholder/reference for that asset in the expanded Markdown or a handoff note for the DOCX phase. Do not reduce the task to text-only when the source problem had a required image.
+
+For concept questions:
+
+- Keep the original problem heading and number, such as `1.1 ...`, `1.2 ...`.
+- Directly answer below the problem statement.
+- Do not add `题目分析`, `实验原理`, `实验设计`, `核心代码`, `代码说明`, `本题小结`, or any extra subsection heading.
+- Do not split the concept answer into artificial report modules. Use ordinary paragraphs and formulas only when needed.
+
+For programming or implementation questions:
+
+1. Keep the original problem heading and number, such as `2.1 ...`, `2.2 ...`, `3.3 ...`.
+2. Under the original problem statement, use exactly these bold label headings, without numbering:
+   - `题目分析`
+   - `实验原理`
+   - `实验设计`
+   - `核心代码`
+   - `代码说明`
+3. Put detailed explanations under each bold label. If content under a label needs internal ordering, use the user's lower-level numbering rules such as `(1)`, `1)`, and `a.`.
+4. Do not add `题目要求`, `涉及知识点`, `算法流程`, `代码设计与关键代码`, `实验材料与运行方式`, `本题结果和过程解释`, or `本题小结` as final process-section headings.
+
+For programming questions, include code as text, not screenshots. Prefer complete code if the report needs it; otherwise include key code plus a path to the full file.
+
+## Result Boundary Rule
+
+This skill expands the Markdown source for `实验过程及内容`. It must not become a result-analysis writer.
+
+Keep in the expanded process Markdown:
+
+- Original problem statements and numbering.
+- Knowledge points and definitions.
+- Algorithm/theory principles.
+- Formula derivations and variable explanations.
+- Experiment design and implementation flow.
+- Code design, code paths, and code text.
+- Parameter choices and implementation notes.
+
+Do not include in the expanded process Markdown:
+
+- Sections titled `实验结果`, `结果展示`, `结果分析`, `数据处理分析`, `实验结果分析`, `输出结果`, `结果文件`, or `运行结果`.
+- Result images, comparison figures, masks, overlays, error maps, output screenshots, or figure captions for results.
+- CSV metric tables, run-output summaries, accuracy tables, component tables, or result-statistics tables.
+- Detailed discussion of whether the observed result is good or bad.
+
+If the input draft already contains those result materials, preserve the factual paths and metrics in a short handoff note for the data-analysis phase, then exclude them from the process expansion. A suitable handoff note is:
+
+```markdown
+> 数据处理分析素材：结果文件见 `results/...`，对应指标/图片将在“数据处理分析”部分整理。
+```
+
+Do not insert that handoff note into the final Word `实验过程及内容` if the report style requires strict separation.
+
+## Depth Requirements
+
+The expanded Markdown must be materially richer than the input Markdown. For every important method or concept:
+
+- Define variables and units.
+- Explain the underlying model or algorithm.
+- Derive the formula or explain how the formula is obtained.
+- Explain why the method is suitable for the task.
+- Explain parameter choices and their effect.
+- Connect formulas to code implementation.
+
+For image/vision tasks, include coordinate systems, transforms, interpolation, thresholding, edge detection, contours, Hough voting, geometric measurement, or polar mapping as applicable.
+
+For speech/audio/signal tasks, include sampling, time/frequency-domain representation, convolution, filtering, FFT/STFT, windowing, spectral features, SNR, or recognition metrics as applicable.
+
+For control/circuit/physics/data tasks, include model equations, transfer functions, differential equations, measurement units, fitting, metrics, error propagation, or assumptions as applicable.
+
+## Formula Requirements
+
+Use LaTeX in the Markdown source:
+
+```markdown
+$$
+X[k]=\sum_{n=0}^{N-1}x[n]e^{-j2\pi kn/N}
+$$
+```
+
+The downstream DOCX skill is responsible for converting equations to visible Word equations. This skill must provide complete equation source and variable explanations.
+
+## Code Requirements
+
+For programming tasks:
+
+- Include code in fenced code blocks.
+- Always add the language identifier to fenced code blocks, such as `python`, `matlab`, `cpp`, or `bash`, so the DOCX phase can apply correct syntax highlighting.
+- Keep code text accurate to the actual script.
+- Preserve indentation, blank lines, comments, and import order exactly; do not reflow code as prose.
+- Explain each important block before or after the code.
+- Mention input and output paths.
+- Discuss how the code implements the formulas or algorithm steps.
+
+## Output Checklist
+
+Before finishing, check that the expanded Markdown:
+
+- Is longer and deeper than the input draft.
+- Retains original result paths and code paths.
+- Has enough formulas for the theory to be reproducible.
+- Contains code for programming tasks.
+- Does not put result images, result tables, result captions, metrics tables, or result interpretation into `实验过程及内容`.
+- Can be inserted directly into a Word report section with minimal content rewriting.
+
+For a reusable template, read `references/expanded-process-template.md`.

@@ -1,0 +1,11 @@
+.DS_Store
+Thumbs.db
+*.tmp
+*.bak
+*.backup-*
+__pycache__/
+.ipynb_checkpoints/
+.venv/
+venv/
+node_modules/
+.tools/

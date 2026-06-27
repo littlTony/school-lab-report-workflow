@@ -1,0 +1,75 @@
+# 实验报告完整工作流
+
+总入口是 `$school-lab-report-pipeline`，它负责编排下面所有组件 skill。
+
+## 1. 实验执行与结果生成
+
+- 读取实验题目、模板、已有数据。
+- 编写或运行代码。
+- 生成稳定结果到工作目录，例如 `code/`、`results/`、`data/`。
+
+## 2. 分题基础报告初稿
+
+Skill: `$school-lab-report`
+
+- 为每道题生成基础 Markdown。
+- 写清题目要求、知识点、公式原理、代码路径、结果路径和初步分析。
+- 代码片段必须使用带语言标识的 fenced code block，方便后续 Word 高亮和行号。
+
+## 3. 实验过程及内容扩写
+
+Skill: `$school-lab-md-expander`
+
+- 把初稿扩成可以放进 Word 的详细“实验过程及内容”。
+- 保留原题号、题干、题目图片和原始题目顺序。
+- 概念题直接回答；编程题使用 `题目分析`、`实验原理`、`实验设计`、`核心代码`、`代码说明`。
+- 代码必须保留缩进、空行、注释和 import 顺序，并带语言标识。
+- 不放结果图片和结果分析。
+
+## 4. 数据处理分析生成
+
+Skill: `$school-lab-data-analysis`
+
+- 从真实结果图、CSV/TSV/XLSX、日志和指标生成 `数据处理分析`。
+- 整理结果图、结果表、误差分析、参数影响和改进方向。
+- 给 DOCX 阶段留下图片/表格的紧凑展示信息，避免所有图表都铺满页面。
+
+## 5. 方法步骤与实验结论生成
+
+Skill: `$school-lab-method-conclusion`
+
+- 生成 `方法、步骤`。
+- 生成第一人称完成式 `实验结论`，例如“我完成了……我掌握了……”。
+
+## 6. Word 报告排版与渲染检查
+
+Skill: `$school-lab-docx-report`
+
+- 将 Markdown 内容填入 Word 模板。
+- 保留封面、教师批阅区、固定模板文字、题目图片和已有公式对象。
+- 公式转为 Word 原生 OMML，包括行内公式和独立公式。
+- 代码块转为带语法高亮和左侧行号栏的 Word 原生文本表格，不使用截图。
+- 图片和表格自适应宽度，不全部铺满。
+- 图注为宋体六号加粗居中。
+- 渲染检查 DOCX 页面，修复公式、图片、表格、代码和分页问题。
+
+## 7. 交给老师的提交材料整理
+
+最终输出一个干净提交文件夹：
+
+~~~text
+output/<实验名>_提交材料/
+├── <实验名>_实验报告.docx
+├── result/
+└── code/
+~~~
+
+- `result/` 只放报告中引用的最终结果图、表格和指标文件。
+- `code/` 只放复现实验所需代码、Notebook、辅助模块、配置文件和必要小样例。
+- 不提交 `expanded/`、`analysis/`、`summary/`、渲染检查图、临时 PDF、缓存、旧结果或虚拟环境。
+
+## 推荐使用提示词
+
+~~~text
+Use $school-lab-report-pipeline to complete Lab2 from experiment execution to final report and package the teacher submission folder.
+~~~

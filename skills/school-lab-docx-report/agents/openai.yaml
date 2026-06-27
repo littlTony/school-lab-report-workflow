@@ -1,0 +1,4 @@
+interface:
+  display_name: "Word 报告排版与交付"
+  short_description: "填充模板、代码高亮、渲染检查并整理交付"
+  default_prompt: "Use $school-lab-docx-report to build the final DOCX report with highlighted line-numbered code blocks, verify formatting, and prepare report/result/code hand-in files."
