@@ -105,7 +105,7 @@ Prepared Markdown is the content source of record. During DOCX insertion:
 
 For `数据处理分析`, preserve the analysis Markdown with particular strictness:
 
-- For each task, keep `结果文件`, `实验结果展示`, `结果数据表`, `结果分析`, and when available `误差来源与改进`.
+- For each task, keep `结果文件`, `实验结果展示`, `结果数据表`, `结果分析`, and only keep or add `误差来源与改进` when the actual result noticeably differs from the theoretical/expected result, the metric is poor, the output is unstable, or an anomaly needs explanation.
 - Each task's `结果分析` should contain 2-3 substantial paragraphs when evidence exists, not a single sentence or a caption.
 - Result tables should remain tables in Word. Do not replace tables with prose unless no real table data exists.
 - If an old template contains result-related points, keep those points as subsections instead of flattening them into one generic paragraph.

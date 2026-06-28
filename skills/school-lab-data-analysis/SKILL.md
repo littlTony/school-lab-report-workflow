@@ -48,9 +48,9 @@ For each task, write these subsections and keep them in the downstream DOCX:
 2. `实验结果展示`
 3. `结果数据表`
 4. `结果分析`
-5. `误差来源与改进`
+5. `误差来源与改进` when needed
 
-`结果文件`, `实验结果展示`, `结果数据表`, and `结果分析` are mandatory whenever evidence exists. `误差来源与改进` is preferred but may be shorter when the assignment has little error discussion. Do not drop the template's result-related points just because the final report is being converted to Word.
+`结果文件`, `实验结果展示`, `结果数据表`, and `结果分析` are mandatory whenever evidence exists. `误差来源与改进` is conditional: write it when the actual result differs noticeably from the theoretical or expected result, the metric is poor, the output is unstable, or an anomaly needs explanation. If the result matches the expectation well, omit the separate error subsection or replace it with a brief improvement note inside `结果分析`. Do not drop the template's core result-related points just because the final report is being converted to Word.
 
 If a task has no image or table, explain why and include the available numeric/log evidence.
 
@@ -62,7 +62,7 @@ If a task has no image or table, explain why and include the available numeric/l
 - Include Markdown image links for figures.
 - Build tables from actual measured/detected values whenever possible.
 - Explain what each result proves and whether it satisfies the task.
-- Discuss parameter effects, error sources, and limitations.
+- Discuss parameter effects and limitations. Discuss error sources only when the actual result and theoretical/expected result differ noticeably, or when the result is abnormal or unsatisfactory.
 - Do not fabricate metrics. If a metric is absent, state that it is unavailable or compute it from available data when appropriate.
 - Treat images, CSV tables, logs, metric summaries, and result captions removed from `实验过程及内容` as first-class inputs for this section.
 - Do not write only a short caption-style summary. Each task's `结果分析` must usually contain 2-3 substantial Chinese paragraphs.
@@ -110,6 +110,6 @@ Recommended paragraph rhythm:
 
 1. Describe the visible or numeric result, cite the exact figure/table/log, and state whether it meets the requirement.
 2. Connect the observed result to the algorithm or model: explain why the parameter, threshold, transform, feature, metric, or training behavior produced this outcome.
-3. Discuss limitations, edge cases, possible error sources, and practical improvements. If `误差来源与改进` is written as a separate subsection, this third paragraph can be coordinated with it but should not disappear.
+3. Discuss limitations, edge cases, and practical improvements. Expand into error-source analysis only when the actual result has a clear gap from the theoretical/expected result, the metric is poor, or the output is abnormal. If `误差来源与改进` is written as a separate subsection, this third paragraph can briefly point to it but should not disappear.
 
 Use concise formulas only when needed to analyze metrics, errors, angles, distances, or evaluation scores.

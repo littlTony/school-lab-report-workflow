@@ -56,8 +56,9 @@ Run the workflow in this order:
 4. **数据处理分析生成**
    - Use `school-lab-data-analysis`.
    - Extract actual results from result images, CSV files, logs, tables, and metrics.
-   - For each task, keep the template-style subsections `结果文件`, `实验结果展示`, `结果数据表`, `结果分析`, and when available `误差来源与改进`.
-   - Write 2-3 substantial `结果分析` paragraphs for each task with real evidence, covering observed result, algorithm/parameter explanation, and limitations or improvements.
+   - For each task, keep the template-style subsections `结果文件`, `实验结果展示`, `结果数据表`, and `结果分析`.
+   - Add `误差来源与改进` only when the actual result differs noticeably from the theoretical/expected result, the metric is poor, the output is unstable, or an anomaly needs explanation.
+   - Write 2-3 substantial `结果分析` paragraphs for each task with real evidence, covering observed result, algorithm/parameter explanation, and relevant limitations or improvements.
    - Preserve any result-related content moved out of expanded Markdown. Moving content between sections must not reduce or delete it.
    - Save analysis Markdown under `analysis/`.
 

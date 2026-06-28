@@ -32,7 +32,7 @@ Use `代码文件与运行方式` when the task includes code. Use `实验材料
 5. Include exact run commands, input/output paths, numeric results, figures, and key parameters.
 6. Make the principle section substantial: define variables, derive formulas from assumptions or definitions, show intermediate steps, and connect equations to the implemented steps.
 7. When a task involves an algorithm, model structure, transform, metric, or optimization objective with many mathematical details, do not stop at listing core formulas. Explain where each formula comes from, why it is valid for this task, and give a small task-specific example using the problem's variables, data shape, parameter values, image/audio coordinates, or sample numeric values.
-8. Make the analysis section concrete: explain whether the result meets the requirement, what parameters affected the result, and what error sources or limitations remain.
+8. Make the analysis section concrete: explain whether the result meets the requirement, what parameters affected the result, and what limitations or improvements remain. Discuss error sources only when the actual result differs noticeably from the theoretical/expected result or the output is abnormal.
 
 ## Writing Rules
 
@@ -86,7 +86,7 @@ Show generated figures, tables, logs, or important numeric outputs. Use Markdown
 
 ### 实验结果分析
 
-Analyze the result, not just repeat it. Explain correctness, trends, parameter sensitivity, error sources, and possible improvements. Connect visual or numeric observations back to the formulas and principles.
+Analyze the result, not just repeat it. Explain correctness, trends, parameter sensitivity, limitations, and possible improvements. Discuss error sources only when the actual result and theoretical/expected result differ noticeably, or when the output is abnormal. Connect visual or numeric observations back to the formulas and principles.
 
 ## Reference Template
 
