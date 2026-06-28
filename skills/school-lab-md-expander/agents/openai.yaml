@@ -1,4 +1,4 @@
 interface:
-  display_name: "实验过程及内容扩写"
-  short_description: "把初稿扩成可入 Word 的过程内容"
-  default_prompt: "Use $school-lab-md-expander to expand preliminary Markdown into detailed Word-ready 实验过程及内容."
+  display_name: "过程内容检查补写"
+  short_description: "检查原稿并只补缺失过程内容"
+  default_prompt: "Use $school-lab-md-expander to quality-check preliminary Markdown for Word-ready 实验过程及内容, preserving correct formulas and expanding only missing parts."

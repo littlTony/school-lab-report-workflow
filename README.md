@@ -66,11 +66,13 @@ python code/main.py
 
 这样后续 Word 阶段才能正确做语法高亮和行号。
 
-### 3. 实验过程及内容扩写
+### 3. 实验过程及内容质量检查与必要补写
 
 使用 `$school-lab-md-expander`。
 
-这个阶段把基础 Markdown 扩写成可直接放入 Word 报告 `实验过程及内容` 的详细内容。它会保留原题号、题干、题目图片和原始题目顺序，并补充理论、公式推导、算法设计、核心代码和代码说明。对于算法、模型结构、评价指标、变换或优化目标涉及较多数学公式的题目，`实验原理` 不能只给核心公式，还要写出推导过程、符号含义，并结合题目给出小例子。
+这个阶段先检查基础 Markdown 或已经提取出的 Markdown 是否能直接放入 Word 报告 `实验过程及内容`。如果原稿已经完整、公式正确、结构合适，就直接把原稿作为权威来源，不再强制生成一份“详细版”。只有缺少理论、公式推导、算法设计、核心代码或代码说明时，才补写缺失部分。对于算法、模型结构、评价指标、变换或优化目标涉及较多数学公式的题目，`实验原理` 不能只给核心公式，还要写出推导过程、符号含义，并结合题目给出小例子。
+
+公式保护是硬规则：原稿中已经正确的 LaTeX 公式不要为了扩写而重写。需要补充推导时，在公式前后增加解释，不要替换变量、合并公式或把公式改成普通文字。
 
 对于概念题，直接在原题下面回答，不额外添加 `题目分析`、`实验原理` 等标签。
 
@@ -183,7 +185,7 @@ Use $school-lab-report-pipeline to complete Lab2 from experiment execution to fi
 | Skill | 适用场景 | 主要输出 |
 |---|---|---|
 | `$school-lab-report` | 从题目、代码和结果生成分题基础报告初稿 | 每题 Markdown 草稿 |
-| `$school-lab-md-expander` | 把初稿扩写为 Word 可插入的 `实验过程及内容` | `expanded/*.md` |
+| `$school-lab-md-expander` | 检查并按需补写 Word 可插入的 `实验过程及内容` | 原稿或 `expanded/*.md` |
 | `$school-lab-data-analysis` | 从真实结果图、表格、日志和指标生成结果分析 | `analysis/*.md` |
 | `$school-lab-method-conclusion` | 生成 `方法、步骤` 和第一人称 `实验结论` | `summary/*.md` |
 | `$school-lab-docx-report` | 将 Markdown、代码、图表填入 Word 模板并做渲染检查 | 最终 `.docx` 和提交包 |
@@ -197,10 +199,10 @@ Use $school-lab-report-pipeline to complete Lab2 from experiment execution to fi
 Use $school-lab-report to generate preliminary Markdown for each task in Lab1 based on the assignment, code, and results.
 ```
 
-只扩写 `实验过程及内容`：
+只检查/按需补写 `实验过程及内容`：
 
 ```text
-Use $school-lab-md-expander to expand the preliminary Markdown into detailed Word-ready 实验过程及内容, preserving original problem statements and assignment images.
+Use $school-lab-md-expander to quality-check the preliminary Markdown for Word-ready 实验过程及内容, preserving original problem statements, assignment images, and correct formulas; expand only missing parts.
 ```
 
 只整理结果分析：
@@ -238,14 +240,14 @@ output/
 建议命名：
 
 ```text
-expanded/<实验名>_<题号或任务名>_扩写.md
+expanded/<实验名>_<题号或任务名>_过程稿.md
 analysis/<实验名>_数据处理分析.md
 summary/<实验名>_方法步骤与实验结论.md
 output/<实验名>_实验报告.docx
 output/<实验名>_提交材料/
 ```
 
-其中 `expanded/`、`analysis/`、`summary/` 是工作产物，方便追踪和返工；最终交给老师的提交包只应包含报告、`result/` 和 `code/`。
+其中 `expanded/`、`analysis/`、`summary/` 是工作产物，方便追踪和返工；如果原始 Markdown 已经足够，`expanded/` 中可以不生成重写版，或只保存未改动副本。最终交给老师的提交包只应包含报告、`result/` 和 `code/`。
 
 ## 维护方式
 
@@ -278,8 +280,9 @@ output/<实验名>_提交材料/
 
 最终交付前至少检查：
 
-- 每道题都有基础 Markdown 和扩写 Markdown。
+- 每道题都有可迁入 Word 的过程 Markdown；原稿合格时直接用原稿，内容不足时才使用补写版。
 - 公式较多的算法或模型结构有推导链、变量解释和结合题目的例子，不只是核心公式列表。
+- 原稿中正确的公式没有在“详细版”或 Word 迁入前被无故重写。
 - `实验过程及内容` 不混入结果图片、结果表格和结果分析。
 - `数据处理分析` 引用的图片、表格、日志和指标都来自真实文件，并且每道有结果证据的题目都有两到三段结果分析。
 - 最终 DOCX 与 `expanded/`、`analysis/`、`summary/` 源 Markdown 对照后没有内容缩减，尤其不能把结果分析压缩成图注或一句话。

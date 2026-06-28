@@ -1,6 +1,6 @@
 ---
 name: school-lab-report-pipeline
-description: Orchestrate complete Chinese school lab-report delivery: run or verify experiments, generate draft/expanded/analysis/summary Markdown, build and render-check the final Word `.docx`, then prepare the teacher hand-in package containing only the report, `result/`, and `code/`. Use as the single entrypoint so the user does not need to invoke component skills manually.
+description: Orchestrate complete Chinese school lab-report delivery: run or verify experiments, generate draft/checked-or-expanded/analysis/summary Markdown, build and render-check the final Word `.docx`, then prepare the teacher hand-in package containing only the report, `result/`, and `code/`. Use as the single entrypoint so the user does not need to invoke component skills manually.
 ---
 
 # School Lab Complete Delivery Pipeline
@@ -20,7 +20,7 @@ This skill coordinates the smaller specialized skills. It does not replace them;
 Keep the existing `$school-lab-*` skill names for backward compatibility, but treat their roles as follows:
 
 - `$school-lab-report`: per-task draft writer for requirements, principles, code/result paths, and initial analysis.
-- `$school-lab-md-expander`: process-section expander for detailed `实验过程及内容` content.
+- `$school-lab-md-expander`: process-section quality checker and conditional expander for `实验过程及内容` content.
 - `$school-lab-data-analysis`: result-analysis writer for `数据处理分析` from real outputs.
 - `$school-lab-method-conclusion`: method/steps and conclusion writer.
 - `$school-lab-docx-report`: Word template filler, formatter, equation renderer, and DOCX visual QA owner.
@@ -41,12 +41,14 @@ Run the workflow in this order:
    - Produce per-task preliminary Markdown containing requirements, principles, code paths, result paths, and initial analysis.
    - For formula-heavy algorithms, model structures, transforms, objectives, or metrics, include derivation steps and a small task-specific worked example instead of only listing core formulas.
 
-3. **实验过程及内容扩写**
+3. **实验过程及内容质量检查与必要补写**
    - Use `school-lab-md-expander`.
-   - Expand each task one by one.
-   - Save expanded Markdown under `expanded/`.
-   - Ensure expanded files are detailed enough for direct Word insertion.
+   - Check each task one by one before expanding.
+   - If the existing Markdown is already detailed, formula-complete, and Word-ready, keep it as the authoritative process source and do not rewrite it.
+   - Save a checked or expanded process source under `expanded/` only when useful for pipeline bookkeeping; unchanged copies must remain unchanged.
+   - Ensure process source files are detailed enough for direct Word insertion.
    - Ensure `实验原理` derives important formulas from definitions or assumptions, explains intermediate steps and symbols, and includes examples tied to the assignment's data, parameters, coordinates, tensors, or measurements.
+   - Preserve correct original formulas exactly. Add missing explanations around formulas; do not regenerate formulas from scratch.
    - Preserve original problem statements and numbering in the expanded process source.
    - For concept questions, write direct answers under each original problem without extra subsection labels.
    - For programming questions, use `题目分析`, `实验原理`, `实验设计`, `核心代码`, and `代码说明` as bold unnumbered labels under each original problem.
@@ -150,9 +152,10 @@ Only ask questions when required information is missing and cannot be inferred s
 
 Before final delivery:
 
-- All source tasks have preliminary Markdown.
-- Each task has expanded Markdown.
+- All source tasks have preliminary Markdown or a user-provided extracted Markdown source.
+- Each task has a checked process Markdown source; it may be the original source if already sufficient, or an expanded version if content was incomplete.
 - Formula-heavy tasks include derivation chains and task-specific examples in the principle/process content, not only final formulas.
+- Correct formulas from the source Markdown have not been unnecessarily rewritten during process-source preparation.
 - Data-analysis Markdown references real result files.
 - Data-analysis Markdown preserves result-file lists, result displays, result tables, and detailed analysis for every task.
 - Every task with real result evidence has 2-3 substantial result-analysis paragraphs, not only captions or one-sentence conclusions.

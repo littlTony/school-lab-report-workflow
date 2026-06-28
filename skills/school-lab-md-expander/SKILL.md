@@ -1,15 +1,15 @@
 ---
 name: school-lab-md-expander
-description: Expand preliminary Chinese lab-report Markdown into detailed Word-ready `实验过程及内容` Markdown. Use when Codex needs to preserve original problem statements and assignment images while adding theory, derivations, algorithm design, code text, and implementation explanation before DOCX insertion.
+description: Quality-check and, only when necessary, expand Chinese lab-report Markdown into Word-ready `实验过程及内容` Markdown. Use when Codex needs to preserve original problem statements, assignment images, formulas, and already-good content while adding only missing theory, derivations, algorithm design, code text, or implementation explanation before DOCX insertion.
 ---
 
 # School Lab Process Section Expander
 
 ## Purpose
 
-Use this skill to convert short or preliminary lab-report Markdown into a detailed, Word-ready Markdown source. This skill is intentionally separate from DOCX editing: it produces the expanded content first, then a DOCX-focused skill can insert that content into a Word template.
+Use this skill to quality-check existing lab-report Markdown and expand it only when it is actually too short or incomplete. This skill is intentionally separate from DOCX editing: it prepares a Word-ready content source first, then a DOCX-focused skill can insert that content into a Word template.
 
-Use this skill before `school-lab-docx-report` fills `实验过程及内容`. The expanded Markdown should be rich enough that Word insertion does not need to invent or summarize content again.
+Use this skill before `school-lab-docx-report` fills `实验过程及内容`, but do not assume a new "detailed version" must always be generated. If the extracted or user-provided Markdown is already detailed, formula-complete, and structurally suitable, treat that original Markdown as the authoritative Word-ready source and do not rewrite it.
 
 ## Inputs
 
@@ -22,23 +22,26 @@ Use all available materials:
 - Result images, CSV files, logs, metrics, or printed outputs.
 - Current report text if available.
 
-Do not overwrite the original preliminary Markdown unless the user asks. Create an expanded file with a clear name, for example:
+Do not overwrite the original preliminary Markdown unless the user asks. If the source Markdown is already sufficient, keep it as the canonical process source; optionally copy it unchanged under `expanded/` only for pipeline bookkeeping. If content is incomplete and real expansion is needed, create an expanded file with a clear name, for example:
 
 ```text
-expanded/Lab1_实验过程及内容_扩写.md
+expanded/Lab1_实验过程及内容_过程稿.md
 ```
 
 or, for per-task expansion:
 
 ```text
-expanded/Lab1_编程题3_2_检测围棋棋子_扩写.md
+expanded/Lab1_编程题3_2_检测围棋棋子_补写.md
 ```
 
 ## Expansion Rules
 
+- Run a quality gate before expanding. Check whether the source Markdown already preserves the problem statements, contains adequate theory, derivations, code text, code explanation, and correct formula notation. If it passes, do not produce a rewritten detailed version.
 - Preserve all verified facts, paths, numerical results, and conclusions from the original Markdown.
 - Treat problem-statement images and diagrams as original assignment content, not as result images. Preserve their references or record their DOCX anchor so the DOCX phase can keep them with the problem text.
-- Expand the explanation; do not shrink, paraphrase away, or replace detailed original content with a shorter summary.
+- Expand only the missing parts; do not shrink, paraphrase away, or replace detailed original content with a shorter summary or a "more polished" rewrite.
+- Do not rewrite correct formulas. Preserve original LaTeX formula source exactly unless there is a clear syntax error, missing delimiter, or user-requested correction.
+- When adding derivations around existing formulas, add surrounding explanation before or after the formula instead of regenerating the formula body.
 - If code exists, read the actual code and explain its design. Do not rely only on the Markdown description.
 - If result files exist, record their paths only as handoff metadata for `school-lab-data-analysis`. Do not display result images/tables or write result interpretation inside the process-section expansion.
 - If the original Markdown lacks enough theory, add definitions, formulas, derivations, parameter explanations, and task-specific worked examples.
@@ -76,9 +79,9 @@ For programming questions, include code as text, not screenshots. Prefer complet
 
 ## Result Boundary Rule
 
-This skill expands the Markdown source for `实验过程及内容`. It must not become a result-analysis writer.
+This skill prepares the Markdown source for `实验过程及内容`. It must not become a result-analysis writer.
 
-Keep in the expanded process Markdown:
+Keep in the process Markdown:
 
 - Original problem statements and numbering.
 - Knowledge points and definitions.
@@ -88,7 +91,7 @@ Keep in the expanded process Markdown:
 - Code design, code paths, and code text.
 - Parameter choices and implementation notes.
 
-Do not include in the expanded process Markdown:
+Do not include in the process Markdown:
 
 - Sections titled `实验结果`, `结果展示`, `结果分析`, `数据处理分析`, `实验结果分析`, `输出结果`, `结果文件`, or `运行结果`.
 - Result images, comparison figures, masks, overlays, error maps, output screenshots, or figure captions for results.
@@ -105,7 +108,7 @@ Do not insert that handoff note into the final Word `实验过程及内容` if t
 
 ## Depth Requirements
 
-The expanded Markdown must be materially richer than the input Markdown. For every important method or concept:
+If expansion is needed, the added content must make the Markdown materially richer. For every important method or concept that is missing detail:
 
 - Define variables and units.
 - Explain the underlying model or algorithm.
@@ -135,6 +138,13 @@ $$
 
 The downstream DOCX skill is responsible for converting equations to visible Word equations. This skill must provide complete equation source and variable explanations.
 
+Formula preservation is mandatory:
+
+- If an existing Markdown formula is already correct, keep its LaTeX source unchanged.
+- Do not "improve" formulas by retyping them from memory, simplifying them, changing symbols, changing indexes, or converting them to plain text.
+- Do not merge several existing formulas into one newly written formula unless the user explicitly asks.
+- If a formula looks wrong, mark the suspected issue and fix only the minimal syntax or notation needed after checking context.
+
 Do not write only a compact formula inventory such as "the algorithm uses equation A, B, and C." A complete principle section should usually contain:
 
 1. The problem-specific symbols and assumptions.
@@ -157,10 +167,11 @@ For programming tasks:
 
 ## Output Checklist
 
-Before finishing, check that the expanded Markdown:
+Before finishing, check that the process Markdown:
 
-- Is longer and deeper than the input draft.
+- Is either the original Markdown accepted as sufficient, or a minimally expanded version that only adds missing content.
 - Retains original result paths and code paths.
+- Preserves all correct original formulas and inline variables without unnecessary rewriting.
 - Has enough derivation detail for the theory to be reproducible, not just final formulas.
 - Uses task-specific examples for formula-heavy algorithms or model structures.
 - Contains code for programming tasks.
