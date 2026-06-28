@@ -1,4 +1,4 @@
 interface:
-  display_name: "方法步骤与结论生成"
-  short_description: "生成方法步骤和第一人称实验结论"
-  default_prompt: "Use $school-lab-method-conclusion to write 方法、步骤 and first-person 实验结论 sections."
+  display_name: "方法结论检查补写"
+  short_description: "检查并按需补写方法步骤和结论"
+  default_prompt: "Use $school-lab-method-conclusion to quality-check 方法、步骤 and first-person 实验结论 Markdown, preserving concise existing content and adding only missing points."

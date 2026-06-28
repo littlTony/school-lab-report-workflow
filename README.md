@@ -88,11 +88,11 @@ python code/main.py
 
 这一阶段不能放结果图片、结果表格、指标表或结果解释。结果相关内容统一交给 `数据处理分析` 阶段。
 
-### 4. 数据处理分析生成
+### 4. 数据处理分析质量检查与必要补写
 
 使用 `$school-lab-data-analysis`。
 
-这个阶段从真实实验输出中生成 `数据处理分析` Markdown，包括：
+这个阶段从真实实验输出中生成或检查 `数据处理分析` Markdown，包括：
 
 - 结果文件路径。
 - 结果图片和图注。
@@ -102,16 +102,20 @@ python code/main.py
 
 每道题应尽量保留模板中的 `结果文件`、`实验结果展示`、`结果数据表`、`结果分析` 等结果相关点。其他点可以按证据多少适当简洁，但 `结果分析` 必须写充分：先说明图表或数值结果展示了什么，再结合算法、参数、阈值、模型或指标解释为什么得到这个结果，最后讨论局限或改进方向。`误差来源与改进` 不是每题都强制写，主要在实际结果和理论/预期结果差距明显、指标较差、输出异常或结果不稳定时单独展开。
 
-如果 `实验过程及内容` 的扩写文件里混入了结果展示、结果分析、运行输出或指标表，也应在这个阶段抽取出来，避免最终 Word 报告的章节边界混乱。注意这是移动到 `数据处理分析`，不是删减；结果文件、图表、指标和分析段落必须完整保留。
+如果已经存在排布良好的 `analysis/*数据处理分析.md`，直接把它作为权威来源，不要自动生成 `*_详细版.md`。已有 Markdown 表格的列顺序、行顺序、短标签、路径单元格和对齐标记都要保留；需要补充分析时，在表格前后补文字，不要把表格打散成段落或列表。
 
-### 5. 方法步骤与实验结论生成
+如果 `实验过程及内容` 的过程稿里混入了结果展示、结果分析、运行输出或指标表，也应在这个阶段抽取出来，避免最终 Word 报告的章节边界混乱。注意这是移动到 `数据处理分析`，不是删减；结果文件、图表、指标和分析段落必须完整保留。
+
+### 5. 方法步骤与实验结论质量检查与必要补写
 
 使用 `$school-lab-method-conclusion`。
 
-这个阶段生成两个最终报告章节：
+这个阶段生成或检查两个最终报告章节：
 
 - `方法、步骤`：按题目或任务组概括实验设计与执行过程，不重复长篇公式推导。
 - `实验结论`：使用第一人称完成式，例如“我完成了……我掌握了……我分析了……”。
+
+如果已经存在简洁完整的 `summary/*方法步骤与实验结论.md`，直接使用原稿，不要自动生成 `*_详细版.md`。`方法、步骤` 本来就应该简洁，通常不需要更详细；缺少任务组或结论事实时才补写。
 
 建议输出到：
 
@@ -186,8 +190,8 @@ Use $school-lab-report-pipeline to complete Lab2 from experiment execution to fi
 |---|---|---|
 | `$school-lab-report` | 从题目、代码和结果生成分题基础报告初稿 | 每题 Markdown 草稿 |
 | `$school-lab-md-expander` | 检查并按需补写 Word 可插入的 `实验过程及内容` | 原稿或 `expanded/*.md` |
-| `$school-lab-data-analysis` | 从真实结果图、表格、日志和指标生成结果分析 | `analysis/*.md` |
-| `$school-lab-method-conclusion` | 生成 `方法、步骤` 和第一人称 `实验结论` | `summary/*.md` |
+| `$school-lab-data-analysis` | 检查并按需补写结果分析，保留已有表格排布 | `analysis/*.md` |
+| `$school-lab-method-conclusion` | 检查并按需补写简洁的 `方法、步骤` 和第一人称 `实验结论` | `summary/*.md` |
 | `$school-lab-docx-report` | 将 Markdown、代码、图表填入 Word 模板并做渲染检查 | 最终 `.docx` 和提交包 |
 | `$school-lab-report-pipeline` | 编排完整实验报告交付流程 | 全部中间产物、最终报告、提交包 |
 
@@ -205,16 +209,16 @@ Use $school-lab-report to generate preliminary Markdown for each task in Lab1 ba
 Use $school-lab-md-expander to quality-check the preliminary Markdown for Word-ready 实验过程及内容, preserving original problem statements, assignment images, and correct formulas; expand only missing parts.
 ```
 
-只整理结果分析：
+只检查/按需补写结果分析：
 
 ```text
-Use $school-lab-data-analysis to generate 数据处理分析 from the images, CSV files, logs, and metrics under results/.
+Use $school-lab-data-analysis to quality-check 数据处理分析, preserve existing Markdown tables, and add only missing result-analysis paragraphs.
 ```
 
-只生成方法和结论：
+只检查/按需补写方法和结论：
 
 ```text
-Use $school-lab-method-conclusion to create 方法、步骤 and first-person 实验结论 from the expanded process and analysis Markdown.
+Use $school-lab-method-conclusion to quality-check 方法、步骤 and first-person 实验结论, preserving concise existing Markdown and adding only missing points.
 ```
 
 只生成最终 Word：
@@ -247,7 +251,7 @@ output/<实验名>_实验报告.docx
 output/<实验名>_提交材料/
 ```
 
-其中 `expanded/`、`analysis/`、`summary/` 是工作产物，方便追踪和返工；如果原始 Markdown 已经足够，`expanded/` 中可以不生成重写版，或只保存未改动副本。最终交给老师的提交包只应包含报告、`result/` 和 `code/`。
+其中 `expanded/`、`analysis/`、`summary/` 是工作产物，方便追踪和返工；如果原始 Markdown 已经足够，`expanded/` 中可以不生成重写版，或只保存未改动副本。`analysis/` 和 `summary/` 也不应默认生成 `*_详细版.md`；原稿已经排布好或足够简洁时直接用原稿。最终交给老师的提交包只应包含报告、`result/` 和 `code/`。
 
 ## 维护方式
 
@@ -285,6 +289,8 @@ output/<实验名>_提交材料/
 - 原稿中正确的公式没有在“详细版”或 Word 迁入前被无故重写。
 - `实验过程及内容` 不混入结果图片、结果表格和结果分析。
 - `数据处理分析` 引用的图片、表格、日志和指标都来自真实文件，并且每道有结果证据的题目都有两到三段结果分析。
+- `数据处理分析` 中已有排布良好的 Markdown 表格没有被详细版打乱。
+- `方法、步骤` 和 `实验结论` 原稿已经简洁完整时，没有被替换成冗长详细版。
 - 最终 DOCX 与 `expanded/`、`analysis/`、`summary/` 源 Markdown 对照后没有内容缩减，尤其不能把结果分析压缩成图注或一句话。
 - `方法、步骤` 简洁，`实验结论` 使用第一人称完成式。
 - DOCX 中公式已渲染为可见公式，不残留裸 LaTeX。

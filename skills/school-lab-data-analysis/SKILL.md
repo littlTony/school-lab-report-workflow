@@ -1,23 +1,26 @@
 ---
 name: school-lab-data-analysis
-description: Generate the Chinese `数据处理分析` Markdown section from actual experiment outputs: result images, CSV/TSV/XLSX tables, logs, metrics, and figures. Use when Codex needs to curate evidence, write result interpretation, and provide compact figure/table metadata for DOCX insertion.
+description: Generate or quality-check the Chinese `数据处理分析` Markdown section from actual experiment outputs while preserving existing well-formatted tables, result subsections, figure references, and analysis text. Use when Codex needs to curate evidence, write missing result interpretation, or prepare compact figure/table metadata for DOCX insertion without creating unnecessary detailed rewrites.
 ---
 
 # School Lab Result Analysis Writer
 
 ## Purpose
 
-Use this skill after experiments have been executed and after per-task Markdown has been expanded. It produces the `数据处理分析` section as a standalone Markdown artifact that can later be inserted into a Word report by `school-lab-docx-report`.
+Use this skill after experiments have been executed and after process Markdown has been checked or, only if necessary, supplemented. It produces or validates the `数据处理分析` section as a standalone Markdown artifact that can later be inserted into a Word report by `school-lab-docx-report`.
+
+Do not assume a new `详细版` is needed. If an existing `数据处理分析.md` already has complete result files, figures, Markdown tables, and substantial per-task analysis, treat it as the authoritative source. Only add missing analysis paragraphs or missing evidence references; do not rewrite the whole file.
 
 This skill focuses on results, evidence, figures, tables, metrics, and interpretation. It should not repeat the full theory derivation from `实验过程及内容`, but it must give enough result reasoning for the report to stand on its own.
 
-It is the owner of result material that must be excluded from `实验过程及内容`. If expanded process Markdown contains sections such as `实验结果`, `结果展示`, `结果分析`, `数据处理分析`, `输出结果`, or `运行结果`, extract those facts, paths, figures, tables, and metrics here instead of leaving them in the process section.
+It is the owner of result material that must be excluded from `实验过程及内容`. If process Markdown contains sections such as `实验结果`, `结果展示`, `结果分析`, `数据处理分析`, `输出结果`, or `运行结果`, extract those facts, paths, figures, tables, and metrics here instead of leaving them in the process section.
 
 ## Inputs
 
 Use all available evidence:
 
-- Expanded Markdown from `school-lab-md-expander`.
+- Checked process Markdown from `school-lab-md-expander`; this may be the original Markdown if it already passed quality checks.
+- Existing `analysis/*.md` files, especially already formatted tables and result subsections.
 - Result images under `results/` or equivalent folders.
 - CSV/TSV/XLSX tables.
 - Program logs and printed metrics.
@@ -40,6 +43,8 @@ analysis/Lab1_3_2_检测围棋棋子_数据处理分析.md
 
 Do not overwrite raw experiment outputs.
 
+Do not automatically create `*_详细版.md`. Use the existing `数据处理分析.md` when it is already good. If an additional working file is truly needed, prefer a neutral name such as `*_补充.md` or `*_修订.md`, and preserve the original table layout.
+
 ## Required Structure
 
 For each task, write these subsections and keep them in the downstream DOCX:
@@ -54,6 +59,8 @@ For each task, write these subsections and keep them in the downstream DOCX:
 
 If a task has no image or table, explain why and include the available numeric/log evidence.
 
+If an existing analysis file already uses this structure, preserve its section order and heading text. Do not create a second detailed version that changes the organization.
+
 ## Writing Rules
 
 - Use Chinese report prose.
@@ -67,7 +74,9 @@ If a task has no image or table, explain why and include the available numeric/l
 - Treat images, CSV tables, logs, metric summaries, and result captions removed from `实验过程及内容` as first-class inputs for this section.
 - Do not write only a short caption-style summary. Each task's `结果分析` must usually contain 2-3 substantial Chinese paragraphs.
 - If one task has several result images or tables, analyze them one by one instead of merging them into a single vague paragraph.
-- Preserve all useful content from already-expanded Markdown or existing analysis drafts. Do not summarize, compress, merge away, or delete paragraphs when the analysis Markdown is prepared for DOCX insertion.
+- Preserve all useful content from process Markdown or existing analysis drafts. Do not summarize, compress, merge away, or delete paragraphs when the analysis Markdown is prepared for DOCX insertion.
+- Preserve existing Markdown tables exactly unless there is a factual error. Do not convert a well-formatted result table into paragraphs, split it into scattered lists, reorder columns, or widen columns with verbose text.
+- If a table needs additional explanation, add prose before or after the table; do not destroy the table's original layout.
 
 ## Figure Rules
 
@@ -87,6 +96,7 @@ For each figure, keep enough metadata for the DOCX phase to size it well: path, 
 Prepare Markdown tables that can become three-line Word tables later. Keep columns compact and meaningful.
 When a table is compact, keep it compact. Avoid unnecessary wide columns or verbose text that would force the downstream DOCX table to occupy the full page width.
 Downstream DOCX insertion must center the whole Word table object, not merely center text inside table cells.
+Existing manually arranged Markdown tables are formatting source material. Keep their row order, column order, alignment markers, short labels, and path text unless correction is required.
 
 Example:
 
