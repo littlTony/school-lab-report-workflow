@@ -1,6 +1,6 @@
 ---
 name: school-lab-data-analysis
-description: Generate or quality-check the Chinese `数据处理分析` Markdown section from actual experiment outputs while preserving existing well-formatted tables, result subsections, figure references, and analysis text. Use when Codex needs to curate evidence, write missing result interpretation, or prepare compact figure/table metadata for DOCX insertion without creating unnecessary detailed rewrites.
+description: Generate or quality-check the Chinese `数据处理分析` Markdown section from actual experiment outputs while preserving existing well-formatted tables, necessary result figures, and analysis text. Use when Codex needs to curate image/table evidence, write missing result interpretation, or prepare compact figure/table metadata for DOCX insertion without creating unnecessary detailed rewrites or result-file lists.
 ---
 
 # School Lab Result Analysis Writer
@@ -9,11 +9,11 @@ description: Generate or quality-check the Chinese `数据处理分析` Markdown
 
 Use this skill after experiments have been executed and after process Markdown has been checked or, only if necessary, supplemented. It produces or validates the `数据处理分析` section as a standalone Markdown artifact that can later be inserted into a Word report by `school-lab-docx-report`.
 
-Do not assume a new `详细版` is needed. If an existing `数据处理分析.md` already has complete result files, figures, Markdown tables, and substantial per-task analysis, treat it as the authoritative source. Only add missing analysis paragraphs or missing evidence references; do not rewrite the whole file.
+Do not assume a new `详细版` is needed. If an existing `数据处理分析.md` already has necessary figures, Markdown tables, and substantial per-task analysis, treat it as the authoritative source. Only add missing analysis paragraphs or missing image/table evidence; do not rewrite the whole file.
 
 This skill focuses on results, evidence, figures, tables, metrics, and interpretation. It should not repeat the full theory derivation from `实验过程及内容`, but it must give enough result reasoning for the report to stand on its own.
 
-It is the owner of result material that must be excluded from `实验过程及内容`. If process Markdown contains sections such as `实验结果`, `结果展示`, `结果分析`, `数据处理分析`, `输出结果`, or `运行结果`, extract those facts, paths, figures, tables, and metrics here instead of leaving them in the process section.
+It is the owner of result material that must be excluded from `实验过程及内容`. If process Markdown contains sections such as `实验结果`, `结果展示`, `结果分析`, `数据处理分析`, `输出结果`, or `运行结果`, extract the useful facts, figures, tables, and metrics here instead of leaving them in the process section. Do not create a separate `结果文件` subsection or standalone result-file list in the final analysis; paths should appear only as figure/table sources when needed.
 
 ## Inputs
 
@@ -49,23 +49,22 @@ Do not automatically create `*_详细版.md`. Use the existing `数据处理分�
 
 For each task, write these subsections and keep them in the downstream DOCX:
 
-1. `结果文件`
-2. `实验结果展示`
-3. `结果数据表`
-4. `结果分析`
-5. `误差来源与改进` when needed
+1. `实验结果展示`
+2. `结果数据表`
+3. `结果分析`
+4. `误差来源与改进` when needed
 
-`结果文件`, `实验结果展示`, `结果数据表`, and `结果分析` are mandatory whenever evidence exists. `误差来源与改进` is conditional: write it when the actual result differs noticeably from the theoretical or expected result, the metric is poor, the output is unstable, or an anomaly needs explanation. If the result matches the expectation well, omit the separate error subsection or replace it with a brief improvement note inside `结果分析`. Do not drop the template's core result-related points just because the final report is being converted to Word.
+`实验结果展示`, `结果数据表`, and `结果分析` are mandatory whenever image/table evidence exists. Do not write `结果文件` as a subsection, and do not add a file-list table whose only purpose is to enumerate output paths. `误差来源与改进` is conditional: write it when the actual result differs noticeably from the theoretical or expected result, the metric is poor, the output is unstable, or an anomaly needs explanation. If the result matches the expectation well, omit the separate error subsection or replace it with a brief improvement note inside `结果分析`. Do not drop the template's core image/table evidence just because the final report is being converted to Word.
 
 If a task has no image or table, explain why and include the available numeric/log evidence.
 
-If an existing analysis file already uses this structure, preserve its section order and heading text. Do not create a second detailed version that changes the organization.
+If an existing analysis file already has a `结果文件` section, migrate only the useful image/table references into `实验结果展示` or `结果数据表`, then remove the standalone `结果文件` section from the final Markdown. If an existing analysis file already uses the image/table/analysis structure, preserve its section order and heading text. Do not create a second detailed version that changes the organization.
 
 ## Writing Rules
 
 - Use Chinese report prose.
 - Use first-person only when describing completed work or conclusions; otherwise use objective analysis.
-- Reference actual file paths for every figure/table.
+- Reference actual file paths only as figure/table sources when useful; do not discuss output files as an independent result item.
 - Include Markdown image links for figures.
 - Build tables from actual measured/detected values whenever possible.
 - Explain what each result proves and whether it satisfies the task.
@@ -101,7 +100,7 @@ Existing manually arranged Markdown tables are formatting source material. Keep 
 Example:
 
 ```markdown
-| 题目 | 结果文件 | 关键结果 | 判断 |
+| 题目 | 图表证据 | 关键结果 | 判断 |
 |---|---|---|---|
 | 3.2 | results/weiqi_detected.png | 检测到黑白棋子中心 | 满足要求 |
 ```

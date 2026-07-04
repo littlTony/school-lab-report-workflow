@@ -43,7 +43,7 @@ expanded/Lab1_编程题3_2_检测围棋棋子_补写.md
 - Do not rewrite correct formulas. Preserve original LaTeX formula source exactly unless there is a clear syntax error, missing delimiter, or user-requested correction.
 - When adding derivations around existing formulas, add surrounding explanation before or after the formula instead of regenerating the formula body.
 - If code exists, read the actual code and explain its design. Do not rely only on the Markdown description.
-- If result files exist, record their paths only as handoff metadata for `school-lab-data-analysis`. Do not display result images/tables or write result interpretation inside the process-section expansion.
+- If result images/tables exist, record their paths only as internal handoff metadata for `school-lab-data-analysis`. Do not display result images/tables, create a final `结果文件` list, or write result interpretation inside the process-section expansion.
 - If the original Markdown lacks enough theory, add definitions, formulas, derivations, parameter explanations, and task-specific worked examples.
 - If the task involves an algorithm, model structure, transform, objective function, metric, or other formula-heavy material, the `实验原理` content must be more than a list of final formulas. Derive the formula from definitions or assumptions, explain each intermediate step, define every symbol, and show how the formula applies to this exact assignment.
 - If a result or metric is missing, state the gap or run the code when appropriate before writing the expansion.
@@ -101,7 +101,7 @@ Do not include in the process Markdown:
 If the input draft already contains those result materials, preserve the factual paths and metrics in a short handoff note for the data-analysis phase, then exclude them from the process expansion. A suitable handoff note is:
 
 ```markdown
-> 数据处理分析素材：结果文件见 `results/...`，对应指标/图片将在“数据处理分析”部分整理。
+> 数据处理分析素材：结果图表与指标见 `results/...`，将在“数据处理分析”部分整理为图片、表格和分析。
 ```
 
 Do not insert that handoff note into the final Word `实验过程及内容` if the report style requires strict separation.

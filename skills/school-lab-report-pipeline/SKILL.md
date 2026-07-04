@@ -57,14 +57,14 @@ Run the workflow in this order:
 
 4. **数据处理分析质量检查与必要补写**
    - Use `school-lab-data-analysis`.
-   - If an existing `analysis/*数据处理分析.md` already has well-arranged tables, figures, result files, and per-task analysis, use it as the authoritative source.
+   - If an existing `analysis/*数据处理分析.md` already has well-arranged tables, necessary figures, and per-task analysis, use it as the authoritative source.
    - Do not automatically create or prefer `*_详细版.md`; detailed rewrites often break table layout.
    - Extract actual results from result images, CSV files, logs, tables, and metrics.
-   - For each task, keep the template-style subsections `结果文件`, `实验结果展示`, `结果数据表`, and `结果分析`.
+   - For each task, keep the template-style subsections `实验结果展示`, `结果数据表`, and `结果分析`; do not create or keep a standalone `结果文件` subsection.
    - Preserve existing Markdown table structure: column order, row order, compact labels, path cells, and alignment markers.
    - Add `误差来源与改进` only when the actual result differs noticeably from the theoretical/expected result, the metric is poor, the output is unstable, or an anomaly needs explanation.
    - Write 2-3 substantial `结果分析` paragraphs for each task with real evidence, covering observed result, algorithm/parameter explanation, and relevant limitations or improvements.
-   - Preserve any result-related content moved out of process Markdown. Moving content between sections must not reduce or delete it.
+   - Preserve any result-related image/table evidence and analysis moved out of process Markdown. Moving content between sections must not reduce or delete it, but output paths should appear only as figure/table sources when needed.
    - Save analysis Markdown under `analysis/`.
 
 5. **方法步骤与实验结论质量检查与必要补写**
@@ -89,7 +89,7 @@ Run the workflow in this order:
    - Format figure captions as centered 宋体 六号 bold text.
    - Render fenced code blocks as syntax-highlighted Word code tables with a left line-number gutter, not plain pasted paragraphs.
    - Before inserting `实验过程及内容`, run a section-boundary pass that strips or moves any result material from process Markdown.
-   - Insert `数据处理分析` from `analysis/*.md` with all result files, figures, result data tables, and analysis paragraphs preserved.
+   - Insert `数据处理分析` from `analysis/*.md` with all necessary figures, result data tables, and analysis paragraphs preserved; do not insert a separate result-file list.
    - If a reference report such as `Lab1.docx` is provided, use its same section formatting as the style authority.
    - Convert formulas to visible Word equations.
    - Render and visually inspect the final DOCX.
@@ -162,8 +162,8 @@ Before final delivery:
 - Each task has a checked process Markdown source; it may be the original source if already sufficient, or a minimally supplemented version if content was incomplete.
 - Formula-heavy tasks include derivation chains and task-specific examples in the principle/process content, not only final formulas.
 - Correct formulas from the source Markdown have not been unnecessarily rewritten during process-source preparation.
-- Data-analysis Markdown references real result files.
-- Data-analysis Markdown preserves result-file lists, result displays, result tables, existing table layout, and detailed analysis for every task.
+- Data-analysis Markdown uses real result images, tables, logs, or metrics as evidence.
+- Data-analysis Markdown preserves necessary result displays, result tables, existing table layout, and detailed analysis for every task without adding standalone result-file lists.
 - Every task with real result evidence has 2-3 substantial result-analysis paragraphs, not only captions or one-sentence conclusions.
 - Method/conclusion Markdown exists and remains concise; it is not replaced by an unnecessary detailed version.
 - DOCX formulas are rendered, not raw source.
@@ -176,6 +176,6 @@ Before final delivery:
 - The package tree has been listed and checked for unrelated intermediate artifacts.
 - `实验过程及内容` does not contain result figures/tables/metrics that belong in `数据处理分析`.
 - Any result material moved out of `实验过程及内容` appears in `数据处理分析` without content loss.
-- Final DOCX is checked against prepared Markdown so no task, formula derivation, result figure, result table, result path, or analysis paragraph has been silently shortened or omitted.
+- Final DOCX is checked against prepared Markdown so no task, formula derivation, necessary result figure, result table, or analysis paragraph has been silently shortened or omitted.
 - Final DOCX formatting for `实验过程及内容` matches the provided reference report when one is available.
 - DOCX has been rendered and visually inspected, or render failure is disclosed.

@@ -1,4 +1,4 @@
 interface:
   display_name: "数据分析检查补写"
-  short_description: "保留图表结构并按需补写结果分析"
-  default_prompt: "Use $school-lab-data-analysis to quality-check 数据处理分析 Markdown, preserve existing tables and figures, and add only missing result-analysis content."
+  short_description: "围绕必要图表补写结果分析"
+  default_prompt: "Use $school-lab-data-analysis to quality-check 数据处理分析 Markdown, preserve necessary tables and figures, avoid result-file lists, and add only missing result-analysis content."

@@ -65,7 +65,7 @@ Use these content roles:
 
 - `方法、步骤`: concise design summary of each experiment item. Write compact numbered points. Do not include long principle derivations here.
 - `实验过程及内容`: the most important section. Expand from Markdown notes and include detailed knowledge points, algorithm/theory explanations, formula derivations, task-specific worked examples, code for programming tasks, and code design explanation.
-- `数据处理分析`: the second most important section. Extract and discuss actual results from images, CSV files, tables, logs, or printed metrics. Include result files, result figures, result data tables, and detailed result analysis.
+- `数据处理分析`: the second most important section. Extract and discuss actual results from images, CSV files, tables, logs, or printed metrics. Include necessary result figures, result data tables, and detailed result analysis; do not add a standalone result-file list.
 - `实验结论` / `实验总结`: use first-person completed tense, such as `我完成了...`, `我实现了...`, `我分析了...`, and summarize the whole experiment.
 
 For already prepared `analysis/*.md` and `summary/*.md`, prefer the original checked files over `*_详细版.md` unless the user explicitly selects the detailed file. A detailed rewrite is not automatically better.
@@ -93,7 +93,7 @@ Strict section boundary:
 - `实验过程及内容` must not import result-display material from process Markdown, including sections titled `实验结果`, `结果展示`, `结果分析`, `数据处理分析`, `实验结果分析`, `结果文件`, `输出结果`, or similar.
 - Result images, result tables, CSV summaries, metric tables, figure captions, and interpretation of observed output belong in `数据处理分析`.
 - If a process Markdown file contains result material, split it before DOCX insertion: keep process/theory/code content for `实验过程及内容`, and route result material to `school-lab-data-analysis`.
-- Moving result material out of `实验过程及内容` is not deletion. The same factual result files, figures, tables, metrics, captions, and analysis paragraphs must be preserved in `数据处理分析`.
+- Moving result material out of `实验过程及内容` is not deletion. The same factual figures, tables, metrics, captions, and analysis paragraphs must be preserved in `数据处理分析`; output paths should remain only as figure/table sources when useful.
 
 ## No-Reduction Rule For Markdown Insertion
 
@@ -102,16 +102,16 @@ Prepared Markdown is the content source of record. During DOCX insertion:
 - Do not summarize, shorten, merge away, or rewrite prepared `expanded/`, `analysis/`, or `summary/` Markdown into a smaller report body.
 - The DOCX writer is a renderer and formatter, not a content compressor. If the Word section is much shorter than the source Markdown, the workflow has failed.
 - If a section is long, allow normal pagination and page breaks. Do not reduce paragraphs to fit a page or a table cell.
-- Preserve all task-level headings, numbered tasks, result-file references, image references, tables, captions, formulas, and analysis paragraphs unless the user explicitly asks to remove a specific item.
+- Preserve all task-level headings, numbered tasks, image references, tables, captions, formulas, and analysis paragraphs unless the user explicitly asks to remove a specific item. Do not preserve a standalone `结果文件` section unless the user explicitly requests it.
 - After insertion, compare the source Markdown outline against the DOCX section outline. Any missing task, missing result subsection, missing table, missing figure, or missing analysis paragraph must be fixed before delivery.
 
 For `数据处理分析`, preserve the analysis Markdown with particular strictness:
 
-- For each task, keep `结果文件`, `实验结果展示`, `结果数据表`, `结果分析`, and only keep or add `误差来源与改进` when the actual result noticeably differs from the theoretical/expected result, the metric is poor, the output is unstable, or an anomaly needs explanation.
+- For each task, keep `实验结果展示`, `结果数据表`, `结果分析`, and only keep or add `误差来源与改进` when the actual result noticeably differs from the theoretical/expected result, the metric is poor, the output is unstable, or an anomaly needs explanation. Do not add `结果文件` as a separate subsection.
 - Each task's `结果分析` should contain 2-3 substantial paragraphs when evidence exists, not a single sentence or a caption.
 - Result tables should remain tables in Word. Do not replace tables with prose unless no real table data exists.
 - Existing Markdown result tables are layout source material. Preserve column order, row order, compact labels, path cells, and alignment markers when converting to Word tables.
-- If an old template contains result-related points, keep those points as subsections instead of flattening them into one generic paragraph.
+- If an old template contains a standalone `结果文件` point, migrate useful figure/table paths into the figure/table captions or table source cells, then remove that standalone point. Keep other result-related points as subsections instead of flattening them into one generic paragraph.
 
 For `方法、步骤` and `实验结论`, preserve concise source Markdown:
 
@@ -215,7 +215,7 @@ When a lab problem is named `3.1`, `3.2`, etc., convert the report-internal task
 8. Insert generated Markdown section by section:
    - `方法、步骤` from `school-lab-method-conclusion`, preferring the concise checked source over any unnecessary detailed rewrite.
    - `实验过程及内容` from checked process Markdown after stripping/moving result material, inserted under the original problem anchors.
-   - `数据处理分析` from `school-lab-data-analysis`, preserving all result files, result figures, result data tables, existing table structure, and full analysis paragraphs without summarizing or reformatting them.
+   - `数据处理分析` from `school-lab-data-analysis`, preserving all necessary result figures, result data tables, existing table structure, and full analysis paragraphs without summarizing or reformatting them; do not insert a separate result-file list.
    - `实验结论` from `school-lab-method-conclusion`, preserving the concise checked source unless missing facts must be added.
 9. Convert formulas to visible Word equations using the equation rendering rule. Do not leave raw LaTeX in the final DOCX.
 10. Insert code as native Word text using syntax-highlighted two-column code tables with accurate line numbers; do not insert code screenshots or plain unhighlighted paragraphs.
